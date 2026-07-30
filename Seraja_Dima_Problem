@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Seraja_Dima_Problem {
+    public static int[] solve(int[] cards){
+        int[] result = new int[2];
+        int i = 0;
+        int j = cards.length-1;
+        boolean flag = true;
+        while (i <= j){
+            if(flag){
+                if(cards[i] > cards[j]){
+                    result[0] += cards[i];
+                    i++;
+                    flag = false;
+                }
+                else {
+                    result[0] += cards[j];
+                    j--;
+                    flag = false;
+                }
+            }
+            else {
+                if(cards[i] > cards[j]){
+                    result[1] += cards[i];
+                    i++;
+                    flag = true;
+                }
+                else {
+                    result[1] += cards[j];
+                    j--;
+                    flag = true;
+                }
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] cards = new int[n];
+        for(int i = 0; i < n; i++){
+            cards[i] = sc.nextInt();
+        }
+
+        int[] res = solve(cards);
+        System.out.println(res[0]+" "+res[1]);
+    }
+}
