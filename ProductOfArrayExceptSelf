@@ -1,0 +1,65 @@
+public class ProductOfArrayExceptSelf {
+    public static void solveBrute(int[] arr){
+        int[] ans = new int[arr.length];
+        for(int i = 0; i < arr.length; i++){
+            int prod = 1;
+            for(int j = 0; j < arr.length; j++){
+                if(i != j){
+                    prod *= arr[j];
+                }
+            }
+            ans[i] = prod;
+        }
+
+        for(int n : ans){
+            System.out.print(n+" ");
+        }
+    }
+
+    public static void solveOptimal1(int[] arr){
+        int[] ans = new int[arr.length];
+        int prod = 1;
+        for(int n : arr){
+            prod *= n;
+        }
+        for(int i = 0; i < arr.length; i++){
+            ans[i] = prod/arr[i];
+        }
+        System.out.println();
+        for(int n : ans){
+            System.out.print(n+" ");
+        }
+    }
+
+    public static void solveOptimal2(int[] arr){
+        int n = arr.length;
+        int[] ans = new int[n];
+        int prod = 1;
+        int[] preProd = new int[n];
+        preProd[0] = prod;
+        for(int i = 1; i < n; i++){
+            preProd[i] = preProd[i-1] * arr[i-1];
+        }
+
+        int[] post = new int[n];
+        post[n-1] = prod;
+        for(int j = n-2; j >= 0; j--){
+            post[j] = post[j+1] * arr[j + 1];
+        }
+
+        for(int j = 0; j < n; j++){
+            ans[j] = preProd[j] * post[j];
+        }
+
+        System.out.println();
+        for(int c : ans){
+            System.out.print(c+" ");
+        }
+    }
+    public static void main(String[] args) {
+        int[] arr = {2,3,5,6};
+        solveBrute(arr);
+        solveOptimal1(arr);
+        solveOptimal2(arr);
+    }
+}
