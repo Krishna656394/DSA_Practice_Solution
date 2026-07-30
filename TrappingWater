@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+public class TrappingWater {
+    public static void solveBrute(int[] bars){
+        int sum = 0;
+        int n = bars.length;
+        for(int i = 0; i < n; i++){
+            //Left Maximum
+            int leftMaxi = bars[i];
+            for (int j = 0; j < i; j++){
+                if(bars[j] > leftMaxi){
+                    leftMaxi = bars[j];
+                }
+            }
+
+            //Right Maximum
+            int rightMaxi = Integer.MIN_VALUE;
+            for (int j = i; j < n; j++){
+                if(bars[j] > rightMaxi){
+                    rightMaxi = bars[j];
+                }
+            }
+            // Water Trapping
+            sum += Math.min(leftMaxi, rightMaxi) - bars[i];
+        }
+        System.out.println(sum);
+    }
+
+    public static void solveOptimal(int[] bars){
+
+        int n = bars.length;
+
+        int[] leftMax = new int[n];
+        leftMax[0] = bars[0];
+        for(int i = 1; i < n; i++){
+            leftMax[i] = Math.max(leftMax[i-1], bars[i]);
+        }
+
+        int[] rightMax = new int[n];
+        rightMax[n-1] = bars[n-1];
+        for(int i = n-2; i >= 0; i--){
+            rightMax[i] = Math.max(rightMax[i+1],bars[i]);
+        }
+
+        int water = 0;
+        for(int i = 0; i < n; i++){
+            water += Math.min(leftMax[i],rightMax[i]) - bars[i];
+        }
+
+        System.out.println(water);
+    }
+    public static void main(String[] args) {
+
+        int n = 7;
+        int[] bars = {7, 2, 3, 1, 5, 3, 6};
+        solveBrute(bars);
+        solveOptimal(bars);
+    }
+}
